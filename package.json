@@ -1,0 +1,11 @@
+{
+  "name": "rps-battle",
+  "version": "1.0.0",
+  "description": "Rock Paper Scissors Game with vanilla JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thiago Oliveira",
+  "license": "MIT"
+}
