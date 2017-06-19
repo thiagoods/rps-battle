@@ -10,7 +10,7 @@ const csslintConfig = require('./.csslintrc.json'),
 	cssNanoConfig = {autoprefixer: {browsers: ['last 2 version', 'ie 10', 'ios 7', 'android 4']}, discardUnused: false, minifyFontValues: false};
 
 gulp.task('clear', function(cb) {
-	return del('./build/**/*', cb);
+	return del('./docs/**/*', cb);
 });
 
 gulp.task('css', function(){
@@ -18,28 +18,28 @@ gulp.task('css', function(){
 		.pipe(sass())
 		.pipe(csslint(csslintConfig))
 		.pipe(csslint.formatter())
-		.pipe(gulp.dest('./build/styles'))
+		.pipe(gulp.dest('./docs/styles'))
 		.pipe(cssnano(cssNanoConfig))
 		.pipe(rename({ suffix: '.min' }))
-		.pipe(gulp.dest('./build/styles'))
+		.pipe(gulp.dest('./docs/styles'))
 		.pipe(browserSync.stream());
 });
 
 gulp.task('js', function(){
 	return gulp.src('./scripts/**/*.js')
-		.pipe(gulp.dest('./build/scripts'))
+		.pipe(gulp.dest('./docs/scripts'))
 		.pipe(browserSync.stream());
 });
 
 gulp.task('index', function() {
 	return gulp.src('./index.html')
-		.pipe(gulp.dest('./build'))
+		.pipe(gulp.dest('./docs'))
 		.pipe(browserSync.stream());
 });
 
 gulp.task('images', function() {
 	return gulp.src('./images/**/*')
-		.pipe(gulp.dest('./build/images'))
+		.pipe(gulp.dest('./docs/images'))
 		.pipe(browserSync.stream());
 });
 
@@ -52,7 +52,7 @@ gulp.task('browsersync', function() {
 			scroll: true
 		},
 		server: {
-			baseDir: './build'
+			baseDir: './docs'
 		},
 		watchTask: true
 	});
