@@ -13,20 +13,30 @@ body {
 	font-family: verdana, sans-serif;
 }
 
-.app-container {
+body {
 	background-color: #8bb4dd;
 	background-image: radial-gradient(ellipse at center, #8bb4dd 0%,#23538a 100%);
-	display: flex;
+}
+
+.app-wrapper {
+	height: 100vh;
+	overflow: hidden;
+}
+
+.app-container {
 	height: 100vh;
 	position: relative;
+	text-align: center;
+	transition: all 0.5s;
 	width: 100vw;
+	will-change: opacity, transform;
 }
 
 .colofon {
 	bottom: 0;
 	color: #fff;
 	font-size: 10px;
-	height: 15px;
+	height: 22px;
 	left: 0;
 	position: absolute;
 	right: 0;
@@ -35,24 +45,35 @@ body {
 
 .logo {
 	display: block;
-	height: 40%;
-	margin: 40px auto 0;
+	margin: 20px auto 0;
+	max-height: 300px;
+	transition: 0.3s;
 	width: 95%;
 }
 
-.start-button {
+.menu-button {
 	background: #d9bb26;
-	border-bottom: 5px solid #8f7a1e;
+	border-bottom: 5px solid darken(#d9bb26, 10%);
 	border-radius: 15px;
-	bottom: 20%;
 	color: #224;
+	cursor: pointer;
+	display: block;
 	font-size: 30px;
 	font-weight: 900;
-	left: 0;
-	margin: 0 auto;
-	max-width: 350px;
+	line-height: 1;
+	margin: 0 auto 10px;
+	max-width: 300px;
 	padding: 20px;
-	position: absolute;
-	right: 0;
+	position: relative;
 	width: 70%;
+	&:active {
+		border-bottom-width: 2px;
+		margin-bottom: 13px; /* compensando diferença de border-bottom */
+		top: 3px;
+	}
+}
+
+.fade {
+	opacity: 0;
+	transform: translateY(300px);
 }

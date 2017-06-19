@@ -7,14 +7,20 @@
 	<link rel="stylesheet" href="/styles/styles.min.css">
 </head>
 <body>
-	<div id="app" class="app-container">
+	<div class="app-wrapper">
+		<img src="./images/logo.svg" alt="Rock, Paper, Scissors" class="logo"/>
+		<div id="app" class="app-container">
+		</div>
+		<footer class="colofon">
+			A Game by Thiago Oliveira <br/>
+			Game icons by Cristiano Zoucas from the Noun Project
+		</footer>
 	</div>
-	<footer class="colofon">
-		Game icons by Cristiano Zoucas from the Noun Project
-	</footer>
+	<script src="./scripts/gameOptions.js"></script>
 	<script src="./scripts/interface.js"></script>
+	<script src="./scripts/game.js"></script>
 	<script>
-		userInterface.initWelcome();
+		UserInterface.callWelcome();
 	</script>
 </body>
 </html>

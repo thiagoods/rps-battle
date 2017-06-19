@@ -1,4 +1,4 @@
-let gulp = require('gulp'),
+const gulp = require('gulp'),
 	browserSync = require('browser-sync'),
 	csslint = require('gulp-csslint'),
 	cssnano = require('gulp-cssnano'),
@@ -6,7 +6,7 @@ let gulp = require('gulp'),
 	rename = require('gulp-rename'),
 	sass = require('gulp-sass');
 
-let csslintConfig = require('./.csslintrc.json'),
+const csslintConfig = require('./.csslintrc.json'),
 	cssNanoConfig = {autoprefixer: {browsers: ['last 2 version', 'ie 10', 'ios 7', 'android 4']}, discardUnused: false, minifyFontValues: false};
 
 gulp.task('clear', function(cb) {
