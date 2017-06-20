@@ -40,17 +40,17 @@ const UserInterface = (function(){
 		showGameLogo();
 		let fragment = document.createDocumentFragment();
 		let modes = GameOptions.gameModes;
-		for(let i = 0, length = modes.length; i < length; i++) {
+		modes.map(function(mode){
 			let button = document.createElement('button');
-			button.innerText = modes[i].text;
-			button.setAttribute('data-players', modes[i].numPlayers);
+			button.innerText = mode.text;
+			button.setAttribute('data-players', mode.numPlayers);
 			button.classList.add('menu-button');
 			button.addEventListener('click', function(){
 				Game.startNewGame(this.getAttribute('data-players'));
 				callGame(this.getAttribute('data-players'));
 			});
 			fragment.appendChild(button);
-		}
+		});
 		showNewScreen(fragment);
 	}
 
@@ -74,21 +74,28 @@ const UserInterface = (function(){
 		}
 		fragment.appendChild(choicesBoxes);
 		let weapons = GameOptions.weapons;
-		for(let i = 0, length = weapons.length; i < length; i++) {
+		weapons.map(function(weapon){
 			let choice = document.createElement('button');
 			choice.classList.add('weapon-button');
-			let weaponClass = `weapon-${weapons[i].name.toLowerCase()}`;
+			let weaponClass = `weapon-${weapon.name.toLowerCase()}`;
 			choice.classList.add(weaponClass);
-			choice.setAttribute('data-weapon', weapons[i].name);
+			choice.setAttribute('data-weapon', weapon.name);
 			if(numPlayers > 0) {
 				choice.addEventListener('click', function(){
-					Game.playerChoice(this.getAttribute('data-weapon'));
+					if(!this.getAttribute('disabled')) {
+						Game.playerChoice(this.getAttribute('data-weapon'));
+						let allChoicesNodeList = document.querySelectorAll('.weapon-button');
+						let allChoicesArray = Array.prototype.slice.apply(allChoicesNodeList);
+						allChoicesArray.map(function(choice){
+							choice.setAttribute('disabled', true);
+						});
+					}
 				});
 			} else {
 				choice.setAttribute('disabled', true);
 			}
 			fragment.appendChild(choice);
-		}
+		});
 		showNewScreen(fragment);
 		if(numPlayers === 0) {
 			setTimeout(() => {
@@ -105,7 +112,12 @@ const UserInterface = (function(){
 		boxToUpdate.appendChild(img);
 	}
 
-	function declareWinner(player, numPlayers, winningText) {
+	function waitforOpponentCallToAction() {
+		let callToAction = document.querySelector('.call-to-action');
+		callToAction.innerText = 'Wait for you opponent...';
+	}
+
+	function declareWinner(player, numPlayers, winningText, score) {
 		clearGameScreen();
 		let text;
 		if(player === 'p1') {
@@ -137,7 +149,20 @@ const UserInterface = (function(){
 		let winnerDeclaration = document.createElement('h1');
 		winnerDeclaration.classList.add('call-to-action');
 		winnerDeclaration.innerText = text;
-		// TODO show actual Score
+		let scoreBox = document.createElement('div');
+		scoreBox.classList.add('scorebox');
+		for(let i = 1; i <= 2; i++) {
+			let key = `p${i}`;
+			let playerScore = document.createElement('div');
+			playerScore.classList.add('score');
+			playerScore.innerHTML = `${key.toUpperCase()}<br/>${score[key]}`;
+			scoreBox.appendChild(playerScore);
+			if(i ===1) {
+				let versus = document.createElement('div');
+				versus.innerText = 'X';
+				scoreBox.appendChild(versus);
+			}
+		}
 		let playAgainBtn = document.createElement('button');
 		playAgainBtn.classList.add('menu-button');
 		playAgainBtn.innerText = 'Play Again';
@@ -151,6 +176,7 @@ const UserInterface = (function(){
 			chooseGameMode();
 		});
 		fragment.appendChild(winnerDeclaration);
+		fragment.appendChild(scoreBox);
 		fragment.appendChild(playAgainBtn);
 		fragment.appendChild(goBackToStartBtn);
 		showNewScreen(fragment);
@@ -177,7 +203,8 @@ const UserInterface = (function(){
 	return {
 		callWelcome: callWelcome,
 		updateChoice: updateChoice,
-		declareWinner: declareWinner
+		declareWinner: declareWinner,
+		waitforOpponentCallToAction: waitforOpponentCallToAction
 	}
 
 })();

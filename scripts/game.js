@@ -41,7 +41,10 @@ const Game = (function(){
 			console.log('Weapon unavailable. Changing to random weapon');
 		}
 		if (gameStatus.numPlayers === 1) {
-			computerChoice();
+			UserInterface.waitforOpponentCallToAction();
+			setTimeout(() => {
+				computerChoice();
+			}, 1000);
 		}
 	}
 
@@ -68,15 +71,15 @@ const Game = (function(){
 	function compareChoices(p1Choice, p2Choice) {
 		let numPlayers = gameStatus.numPlayers;
 		if(p1Choice.name === p2Choice.name) {
-			UserInterface.declareWinner('draw', numPlayers);
+			UserInterface.declareWinner('draw', numPlayers, false, gameStatus.score);
 		} else if (p1Choice.wins === p2Choice.name) {
 			setVictory('p1');
 			let winningText = `${p1Choice.name} beats ${p2Choice.name}`;
-			UserInterface.declareWinner('p1', numPlayers, winningText);
+			UserInterface.declareWinner('p1', numPlayers, winningText, gameStatus.score);
 		} else {
 			setVictory('p2');
 			let winningText = `${p2Choice.name} beats ${p1Choice.name}`;
-			UserInterface.declareWinner('p2', numPlayers, winningText);
+			UserInterface.declareWinner('p2', numPlayers, winningText, gameStatus.score);
 		}
 	}
 
