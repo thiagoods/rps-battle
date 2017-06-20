@@ -114,7 +114,7 @@ const UserInterface = (function(){
 
 	function waitforOpponentCallToAction() {
 		let callToAction = document.querySelector('.call-to-action');
-		callToAction.innerText = 'Wait for you opponent...';
+		callToAction.innerText = 'Wait for your opponent...';
 	}
 
 	function declareWinner(player, numPlayers, winningText, score) {
