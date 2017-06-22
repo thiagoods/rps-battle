@@ -145,7 +145,8 @@ body {
 
 body {
   background-color: #8bb4dd;
-  background-image: radial-gradient(ellipse at center, #8bb4dd 0%, #23538a 100%); }
+  background-image: radial-gradient(ellipse at center, #8bb4dd 0%, #23538a 100%);
+  text-shadow: 2px 2px 2px #224; }
 
 .app-wrapper {
   height: 100vh;
@@ -161,7 +162,7 @@ body {
 
 .colofon {
   bottom: 0;
-  color: #fff;
+  color: #eee;
   font-size: 10px;
   height: 22px;
   left: 0;
@@ -177,10 +178,11 @@ body {
   width: 95%; }
 
 .menu-button {
-  background: #d9bb26;
-  border-bottom: 5px solid #ae961e;
+  background: #194066;
+  border-bottom: 5px solid #0f263d;
   border-radius: 15px;
-  color: #224;
+  box-shadow: 1px 1px 2px #224;
+  color: #eee;
   cursor: pointer;
   display: block;
   font-size: 30px;
@@ -203,10 +205,12 @@ body {
 
 .weapon-button {
   background-color: #194066;
+  background-repeat: no-repeat;
   background-size: 90px 90px;
   border-bottom: 5px solid #0f263d;
   border-radius: 10px;
-  height: 90px;
+  box-shadow: 1px 1px 2px #224;
+  height: 110px;
   margin-right: 10px;
   position: relative;
   width: 90px; }
@@ -214,11 +218,19 @@ body {
     margin-right: 0; }
   .weapon-button:active {
     border-bottom-width: 2px;
-    height: 87px;
+    height: 107px;
     top: 3px; }
   .weapon-button:disabled {
     background-color: #666;
     border-bottom: 5px solid #4d4d4d; }
+
+.weapon-button-label {
+  bottom: 0;
+  color: #eee;
+  font-size: 20px;
+  left: 0;
+  position: absolute;
+  right: 0; }
 
 .weapon-rock {
   background-image: url("../images/rock-white.svg"); }
@@ -230,13 +242,13 @@ body {
   background-image: url("../images/scissors-white.svg"); }
 
 .call-to-action {
-  color: #fff;
+  color: #eee;
   font-size: 30px;
   margin: 20px 0; }
 
 .boxes-wrapper {
   display: flex;
-  height: 20%;
+  height: 25%;
   justify-content: space-around;
   margin: 30px auto;
   max-width: 350px;
@@ -246,8 +258,18 @@ body {
 .box-2 {
   border: 2px solid #224;
   border-radius: 15px;
+  box-shadow: 1px 1px 2px #224;
   height: 100%;
+  position: relative;
   width: 40%; }
+
+.box-label {
+  bottom: 5px;
+  font-size: 22px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  text-shadow: 1px 1px 2px #224; }
 
 .box-1 {
   left: 0; }
@@ -256,12 +278,12 @@ body {
   right: 0; }
 
 .chosen-weapon {
-  height: 100%;
+  height: 90%;
   width: 100%; }
 
 .scorebox {
   align-items: center;
-  color: #fff;
+  color: #eee;
   display: flex;
   font-size: 50px;
   justify-content: space-around;
@@ -270,5 +292,5 @@ body {
   width: 70%; }
 
 .scorebox > .score {
-  color: #fff;
+  color: #eee;
   font-size: 30px; }

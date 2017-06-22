@@ -63,7 +63,7 @@ const UserInterface = (function(){
 		let fragment = document.createDocumentFragment();
 		let callToAction = document.createElement('h1');
 		callToAction.classList.add('call-to-action');
-		callToAction.innerText = 'Choose your weapon...';
+		callToAction.innerText = 'Choose your weapon!';
 		fragment.appendChild(callToAction);
 		let choicesBoxes = document.createElement('div');
 		choicesBoxes.classList.add('boxes-wrapper');
@@ -80,6 +80,10 @@ const UserInterface = (function(){
 			let weaponClass = `weapon-${weapon.name.toLowerCase()}`;
 			choice.classList.add(weaponClass);
 			choice.setAttribute('data-weapon', weapon.name);
+			let choiceLabel = document.createElement('span');
+			choiceLabel.classList.add('weapon-button-label');
+			choiceLabel.innerText = weapon.name;
+			choice.appendChild(choiceLabel);
 			if(numPlayers > 0) {
 				choice.addEventListener('click', function(){
 					if(!this.getAttribute('disabled')) {
@@ -109,12 +113,16 @@ const UserInterface = (function(){
 		let img = document.createElement('img');
 		img.src = choice.img;
 		img.classList.add('chosen-weapon');
+		let boxLabel = document.createElement('span');
+		boxLabel.classList.add('box-label');
+		boxLabel.innerText = choice.name;
 		boxToUpdate.appendChild(img);
+		boxToUpdate.appendChild(boxLabel);
 	}
 
 	function waitforOpponentCallToAction() {
 		let callToAction = document.querySelector('.call-to-action');
-		callToAction.innerText = 'Wait for your opponent...';
+		callToAction.innerText = 'Wait for your opponent';
 	}
 
 	function declareWinner(player, numPlayers, winningText, score) {

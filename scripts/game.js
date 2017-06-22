@@ -44,7 +44,7 @@ const Game = (function(){
 			UserInterface.waitforOpponentCallToAction();
 			setTimeout(() => {
 				computerChoice();
-			}, 1000);
+			}, 1500);
 		}
 	}
 
@@ -64,7 +64,7 @@ const Game = (function(){
 			setTimeout(() => {
 				console.log('computer playing');
 				computerChoice();
-			}, 1000);
+			}, 1500);
 		}
 	}
 

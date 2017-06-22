@@ -16,6 +16,7 @@ body {
 body {
 	background-color: #8bb4dd;
 	background-image: radial-gradient(ellipse at center, #8bb4dd 0%,#23538a 100%);
+	text-shadow: 2px 2px 2px #224;
 }
 
 .app-wrapper {
@@ -34,7 +35,7 @@ body {
 
 .colofon {
 	bottom: 0;
-	color: #fff;
+	color: #eee;
 	font-size: 10px;
 	height: 22px;
 	left: 0;
@@ -52,10 +53,11 @@ body {
 }
 
 .menu-button {
-	background: #d9bb26;
-	border-bottom: 5px solid darken(#d9bb26, 10%);
+	background: #194066;
+	border-bottom: 5px solid darken(#194066, 10%);
 	border-radius: 15px;
-	color: #224;
+	box-shadow: 1px 1px 2px #224;
+	color: #eee;
 	cursor: pointer;
 	display: block;
 	font-size: 30px;

@@ -1,9 +1,11 @@
 .weapon-button {
 	background-color: #194066;
+	background-repeat: no-repeat;
 	background-size: 90px 90px;
 	border-bottom: 5px solid darken(#194066, 10%);
 	border-radius: 10px;
-	height: 90px;
+	box-shadow: 1px 1px 2px #224;
+	height: 110px;
 	margin-right: 10px;
 	position: relative;
 	width: 90px;
@@ -12,13 +14,22 @@
 	}
 	&:active {
 		border-bottom-width: 2px;
-		height: 87px;
+		height: 107px;
 		top: 3px;
 	}
 	&:disabled {
 		background-color: #666;
 		border-bottom: 5px solid darken(#666, 10%);
 	}
+}
+
+.weapon-button-label {
+	bottom: 0;
+	color: #eee;
+	font-size: 20px;
+	left: 0;
+	position: absolute;
+	right: 0;
 }
 
 .weapon-rock {
@@ -34,14 +45,14 @@
 }
 
 .call-to-action {
-	color: #fff;
+	color: #eee;
 	font-size: 30px;
 	margin: 20px 0;
 }
 
 .boxes-wrapper {
 	display: flex;
-	height: 20%;
+	height: 25%;
 	justify-content: space-around;
 	margin: 30px auto;
 	max-width: 350px;
@@ -52,8 +63,19 @@
 .box-2 {
 	border: 2px solid #224;
 	border-radius: 15px;
+	box-shadow: 1px 1px 2px #224;
 	height: 100%;
+	position: relative;
 	width: 40%;
+}
+
+.box-label {
+	bottom: 5px;
+	font-size: 22px;
+	left: 0;
+	position: absolute;
+	right: 0;
+	text-shadow: 1px 1px 2px #224;
 }
 
 .box-1 {
@@ -65,13 +87,13 @@
 }
 
 .chosen-weapon {
-	height: 100%;
+	height: 90%;
 	width: 100%;
 }
 
 .scorebox {
 	align-items: center;
-	color: #fff;
+	color: #eee;
 	display: flex;
 	font-size: 50px;
 	justify-content: space-around;
@@ -81,6 +103,6 @@
 }
 
 .scorebox > .score {
-	color: #fff;
+	color: #eee;
 	font-size: 30px;
 }
