@@ -1,13 +1,18 @@
 const gulp = require('gulp'),
+	babel = require('gulp-babel'),
 	browserSync = require('browser-sync'),
+	concat = require('gulp-concat'),
 	csslint = require('gulp-csslint'),
 	cssnano = require('gulp-cssnano'),
 	del = require('del'),
+	jshint = require('gulp-jshint'),
 	rename = require('gulp-rename'),
-	sass = require('gulp-sass');
+	sass = require('gulp-sass'),
+	uglify = require('gulp-uglify');
 
 const csslintConfig = require('./.csslintrc.json'),
-	cssNanoConfig = {autoprefixer: {browsers: ['last 2 version', 'ie 10', 'ios 7', 'android 4']}, discardUnused: false, minifyFontValues: false};
+	cssNanoConfig = {autoprefixer: {browsers: ['last 2 version', 'ie 10', 'ios 7', 'android 4']}, discardUnused: false, minifyFontValues: false},
+	jshintConfig = require('./.jshintrc.json');
 
 gulp.task('clear', function(cb) {
 	return del('./docs/**/*', cb);
@@ -26,7 +31,17 @@ gulp.task('css', function(){
 });
 
 gulp.task('js', function(){
-	return gulp.src('./scripts/**/*.js')
+	return gulp.src(require('./scripts/app.js'))
+		.pipe(jshint(jshintConfig))
+		.pipe(jshint.reporter('default'))
+		.pipe(jshint.reporter('fail'))
+		.pipe(concat('bundle.js'))
+		.pipe(babel({presets: ['babili']}))
+		.pipe(gulp.dest('./docs/scripts'))
+		.pipe(babel({
+			presets: ['env', 'babili']
+		}))
+		.pipe(rename({ suffix: '.compat' }))
 		.pipe(gulp.dest('./docs/scripts'))
 		.pipe(browserSync.stream());
 });

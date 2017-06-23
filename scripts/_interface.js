@@ -1,9 +1,15 @@
+/* globals Game, GameOptions */
+
 'use strict';
 
 const UserInterface = (function(){
 
 	const gameScreen = document.getElementById('app');
 	const fadeAnimationDuration = 500;
+
+	function init() {
+		callWelcome();
+	}
 
 	function clearGameScreen() {
 		gameScreen.classList.add('fade');
@@ -25,7 +31,7 @@ const UserInterface = (function(){
 		clearGameScreen();
 		showGameLogo();
 		let startButton = document.createElement('button');
-		startButton.innerText = 'Start Game'
+		startButton.innerText = 'Start Game';
 		startButton.classList.add('menu-button');
 		startButton.addEventListener('click', () => {
 			chooseGameMode();
@@ -132,7 +138,7 @@ const UserInterface = (function(){
 			if(numPlayers === 1) {
 				text = 'You win';
 			} else if (numPlayers === 0) {
-				text = 'Computer 1 wins'
+				text = 'Computer 1 wins';
 			} else {
 				text = 'Player 1 wins';
 			}
@@ -140,7 +146,7 @@ const UserInterface = (function(){
 			if(numPlayers === 1) {
 				text = 'You lose';
 			} else if (numPlayers === 0) {
-				text = 'Computer 2 wins'
+				text = 'Computer 2 wins';
 			} else {
 				text = 'Player 2 wins';
 			}
@@ -209,10 +215,10 @@ const UserInterface = (function(){
 	}
 
 	return {
-		callWelcome: callWelcome,
+		init: init,
 		updateChoice: updateChoice,
 		declareWinner: declareWinner,
 		waitforOpponentCallToAction: waitforOpponentCallToAction
-	}
+	};
 
 })();

@@ -1,4 +1,6 @@
-'use script'
+/* globals UserInterface, GameOptions */
+
+'use strict';
 
 const Game = (function(){
 
@@ -7,14 +9,6 @@ const Game = (function(){
 		numPlayers: 0,
 		playersChoices: []
 	};
-
-	function getScore() {
-		return gameStatus.score;
-	}
-
-	function newRound() {
-		gameStatus.playersChoices = [];
-	}
 
 	function startNewGame(numPlayers) {
 		if (typeof numPlayers !== 'number') {
@@ -88,9 +82,9 @@ const Game = (function(){
 	}
 
 	return {
-		getScore: getScore,
 		startNewGame: startNewGame,
 		computerChoice: computerChoice,
 		playerChoice: playerChoice
 	};
+
 })();
