@@ -1,6 +1,6 @@
 'use strict';
 
-const GameOptions = {
+module.exports = {
 	gameModes: [
 		{ text: 'Player vs Computer', numPlayers: 1},
 		{ text: 'Computer vs Computer', numPlayers: 0}

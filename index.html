@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+
 	<meta name="viewport", content="width=device-width initial-scale=1 maximum-scale=1 user-scalable=no"/>
 	<title>RPS Battle</title>
 	<link rel="stylesheet" href="./styles/styles.min.css">
@@ -30,10 +31,10 @@
 		}();
 		var scriptLoader = document.createElement('script');
 		if (ES6Support) {
-			scriptLoader.src = "./scripts/bundle.js";
+			scriptLoader.src = "./scripts/app.js";
 			document.body.appendChild(scriptLoader);
 		} else {
-			scriptLoader.src = "./scripts/bundle.compat.js";
+			scriptLoader.src = "./scripts/app.compat.js";
 			document.body.appendChild(scriptLoader);
 		}
 	</script>

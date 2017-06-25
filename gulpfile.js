@@ -1,6 +1,7 @@
 const gulp = require('gulp'),
 	babel = require('gulp-babel'),
 	browserSync = require('browser-sync'),
+	browserify = require('browserify'),
 	concat = require('gulp-concat'),
 	csslint = require('gulp-csslint'),
 	cssnano = require('gulp-cssnano'),
@@ -8,6 +9,7 @@ const gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	rename = require('gulp-rename'),
 	sass = require('gulp-sass'),
+	source = require('vinyl-source-stream'),
 	uglify = require('gulp-uglify');
 
 const csslintConfig = require('./.csslintrc.json'),
@@ -31,17 +33,19 @@ gulp.task('css', function(){
 });
 
 gulp.task('js', function(){
-	return gulp.src(require('./scripts/app.js'))
+	browserify('./scripts/controller.js')
+		.transform('babelify', {'presets': ['babili']})
+		.bundle()
+		.pipe(source('app.js'))
 		.pipe(jshint(jshintConfig))
 		.pipe(jshint.reporter('default'))
 		.pipe(jshint.reporter('fail'))
-		.pipe(concat('bundle.js'))
-		.pipe(babel({presets: ['babili']}))
 		.pipe(gulp.dest('./docs/scripts'))
-		.pipe(babel({
-			presets: ['env', 'babili']
-		}))
-		.pipe(rename({ suffix: '.compat' }))
+
+	return browserify('./scripts/controller.js')
+		.transform('babelify', { 'presets': ['env', 'babili'] })
+		.bundle()
+		.pipe(source('app.compat.js'))
 		.pipe(gulp.dest('./docs/scripts'))
 		.pipe(browserSync.stream());
 });

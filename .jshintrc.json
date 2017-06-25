@@ -16,5 +16,6 @@
 	"loopfunc"      : false,
 	"laxcomma"      : false,
 	"browser"       : true,
-	"node"          : true
+	"node"          : true,
+	"browserify"    : true
 }

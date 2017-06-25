@@ -1,49 +1,46 @@
-/* globals Game, GameOptions */
+const GameOptions = require('./gameOptions');
 
 'use strict';
 
-const UserInterface = (function(){
+module.exports = {
 
-	const gameScreen = document.getElementById('app');
-	const fadeAnimationDuration = 500;
+	gameScreen: document.getElementById('app'),
+	fadeAnimationDuration: 500,
 
-	function init() {
-		callWelcome();
-	}
-
-	function clearGameScreen() {
-		gameScreen.classList.add('fade');
+	clearGameScreen() {
+		this.gameScreen.classList.add('fade');
 		setTimeout(() => {
-			while (gameScreen.firstChild) {
-				gameScreen.removeChild(gameScreen.firstChild);
+			this.gameScreen = this.gameScreen;
+			while (this.gameScreen.firstChild) {
+				let removedObj = this.gameScreen.removeChild(this.gameScreen.firstChild);
+				removedObj = null;
 			}
-		}, fadeAnimationDuration);
-	}
+		}, this.fadeAnimationDuration);
+	},
 
-	function showNewScreen(fragment) {
+	showNewScreen(fragment) {
 		setTimeout(() => {
-			gameScreen.appendChild(fragment);
-			gameScreen.classList.remove('fade');
-		}, fadeAnimationDuration);
-	}
+			this.gameScreen.appendChild(fragment);
+			this.gameScreen.classList.remove('fade');
+			fragment = null;
+		}, this.fadeAnimationDuration);
+	},
 
-	function callWelcome() {
-		clearGameScreen();
-		showGameLogo();
+	drawWelcome(startFunction) {
+		this.showGameLogo();
 		let startButton = document.createElement('button');
 		startButton.innerText = 'Start Game';
 		startButton.classList.add('menu-button');
 		startButton.addEventListener('click', () => {
-			chooseGameMode();
+			startFunction();
 		});
 		let fragment = document.createDocumentFragment();
 		fragment.appendChild(startButton);
-		showNewScreen(fragment);
-	}
+		return fragment;
+	},
 
-	function chooseGameMode() {
-		clearGameScreen();
-		showGameLogo();
+	drawGameModes(startGameLogicFunction, startGameInterfaceFunction) {
+		this.showGameLogo();
 		let fragment = document.createDocumentFragment();
 		let modes = GameOptions.gameModes;
 		modes.map(function(mode){
@@ -52,24 +49,27 @@ const UserInterface = (function(){
 			button.setAttribute('data-players', mode.numPlayers);
 			button.classList.add('menu-button');
 			button.addEventListener('click', function(){
-				Game.startNewGame(this.getAttribute('data-players'));
-				callGame(this.getAttribute('data-players'));
+				startGameLogicFunction(this.getAttribute('data-players'));
+				startGameInterfaceFunction(this.getAttribute('data-players'));
 			});
 			fragment.appendChild(button);
 		});
-		showNewScreen(fragment);
-	}
+		return fragment;
+	},
 
-	function callGame(numPlayers) {
+	drawMainGameScreen(numPlayers, playerChoiceSelectFunction, updateChoiceFunction) {
 		if (typeof numPlayers !== 'number') {
 			numPlayers = +numPlayers;
 		}
-		hideGameLogo();
-		clearGameScreen();
+		this.hideGameLogo();
 		let fragment = document.createDocumentFragment();
 		let callToAction = document.createElement('h1');
 		callToAction.classList.add('call-to-action');
-		callToAction.innerText = 'Choose your weapon!';
+		if (numPlayers > 0) {
+			callToAction.innerText = 'Choose your weapon!';
+		} else {
+			callToAction.innerText = 'Computer 1 is thinking';
+		}
 		fragment.appendChild(callToAction);
 		let choicesBoxes = document.createElement('div');
 		choicesBoxes.classList.add('boxes-wrapper');
@@ -93,7 +93,7 @@ const UserInterface = (function(){
 			if(numPlayers > 0) {
 				choice.addEventListener('click', function(){
 					if(!this.getAttribute('disabled')) {
-						Game.playerChoice(this.getAttribute('data-weapon'));
+						playerChoiceSelectFunction(this.getAttribute('data-weapon'), updateChoiceFunction);
 						let allChoicesNodeList = document.querySelectorAll('.weapon-button');
 						let allChoicesArray = Array.prototype.slice.apply(allChoicesNodeList);
 						allChoicesArray.map(function(choice){
@@ -106,15 +106,10 @@ const UserInterface = (function(){
 			}
 			fragment.appendChild(choice);
 		});
-		showNewScreen(fragment);
-		if(numPlayers === 0) {
-			setTimeout(() => {
-				Game.computerChoice();
-			}, fadeAnimationDuration * 2);
-		}
-	}
+		return fragment;
+	},
 
-	function updateChoice(player, choice) {
+	drawChoiceInBox(player, choice) {
 		let boxToUpdate = document.querySelector(`.box-${player}`);
 		let img = document.createElement('img');
 		img.src = choice.img;
@@ -124,17 +119,26 @@ const UserInterface = (function(){
 		boxLabel.innerText = choice.name;
 		boxToUpdate.appendChild(img);
 		boxToUpdate.appendChild(boxLabel);
-	}
+	},
 
-	function waitforOpponentCallToAction() {
+	waitForOpponentFeedback(numPlayers) {
+		if (typeof numPlayers !== 'number') {
+			numPlayers = +numPlayers;
+		}
 		let callToAction = document.querySelector('.call-to-action');
-		callToAction.innerText = 'Wait for your opponent';
-	}
+		if (numPlayers > 0) {
+			callToAction.innerText = 'Wait for your opponent';
+		} else {
+			callToAction.innerText = 'Computer 2 is thinking';
+		}
+	},
 
-	function declareWinner(player, numPlayers, winningText, score) {
-		clearGameScreen();
+	drawEndGameScreen(winner, numPlayers, winningText, score, playAgainFunction, backToStartFunction) {
+		if (typeof numPlayers !== 'number') {
+			numPlayers = +numPlayers;
+		}
 		let text;
-		if(player === 'p1') {
+		if(winner === 'p1') {
 			if(numPlayers === 1) {
 				text = 'You win';
 			} else if (numPlayers === 0) {
@@ -142,7 +146,7 @@ const UserInterface = (function(){
 			} else {
 				text = 'Player 1 wins';
 			}
-		} else if (player === 'p2') {
+		} else if (winner === 'p2') {
 			if(numPlayers === 1) {
 				text = 'You lose';
 			} else if (numPlayers === 0) {
@@ -181,44 +185,37 @@ const UserInterface = (function(){
 		playAgainBtn.classList.add('menu-button');
 		playAgainBtn.innerText = 'Play Again';
 		playAgainBtn.addEventListener('click', () => {
-			callGame(numPlayers);
+			playAgainFunction(numPlayers);
 		});
 		let goBackToStartBtn = document.createElement('button');
 		goBackToStartBtn.classList.add('menu-button');
 		goBackToStartBtn.innerText = 'Back to Start';
 		goBackToStartBtn.addEventListener('click', () => {
-			chooseGameMode();
+			backToStartFunction();
 		});
 		fragment.appendChild(winnerDeclaration);
 		fragment.appendChild(scoreBox);
 		fragment.appendChild(playAgainBtn);
 		fragment.appendChild(goBackToStartBtn);
-		showNewScreen(fragment);
-	}
+		return fragment;
+	},
 
-	function hideGameLogo() {
+	hideGameLogo() {
 		let logo = document.querySelector('.logo');
 		logo.style.opacity = 0;
 		setTimeout(() => {
 			logo.style.display = 'none';
-		}, fadeAnimationDuration);
-	}
+		}, this.fadeAnimationDuration);
+	},
 
-	function showGameLogo() {
+	showGameLogo() {
 		let logo = document.querySelector('.logo');
 		setTimeout(() => {
 			logo.style.display = 'block';
-		}, fadeAnimationDuration);
+		}, this.fadeAnimationDuration);
 		setTimeout(() => {
 			logo.style.opacity = 1;
-		}, fadeAnimationDuration * 1.5);
-	}
+		}, this.fadeAnimationDuration * 1.5);
+	},
 
-	return {
-		init: init,
-		updateChoice: updateChoice,
-		declareWinner: declareWinner,
-		waitforOpponentCallToAction: waitforOpponentCallToAction
-	};
-
-})();
+};
