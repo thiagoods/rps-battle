@@ -9,8 +9,7 @@ const gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	rename = require('gulp-rename'),
 	sass = require('gulp-sass'),
-	source = require('vinyl-source-stream'),
-	uglify = require('gulp-uglify');
+	source = require('vinyl-source-stream');
 
 const csslintConfig = require('./.csslintrc.json'),
 	cssNanoConfig = {autoprefixer: {browsers: ['last 2 version', 'ie 10', 'ios 7', 'android 4']}, discardUnused: false, minifyFontValues: false},
